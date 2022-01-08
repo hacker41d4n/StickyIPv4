@@ -13,7 +13,7 @@ echo -ne "
 "
     interface=$(ip -o link show | awk -F': ' '{print $2}' | awk -F 'lo' '{print $1}')
     ip=$(hostname --all-ip-addresses | awk '{print $1}'  )
-    sudo check=$(route -n | grep 'UG[ \t]' | awk '{print $2}')
+    check=$(route -n | grep 'UG[ \t]' | awk '{print $2}')
     list=$(ls /etc/sysconfig/network-scripts)
     gateway=$(echo $check | awk '{print $1}')
 

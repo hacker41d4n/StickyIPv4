@@ -12,24 +12,32 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 
-read -p "Insert backup file name configuration (include PATH): " backupname
-
-backup=$(cp /etc/network/interface $backupname)
-echo $backup
-echo "Backup process has been successful -- DONE!"
-
-echo "$(newline)"
-read -p "Insert IP Address: " ip
-
-read -p "Insert Broadcast Address: " broadcast
-
-read -p "Insert Network Address: " na
-
-read -p "Insert Default Gateway: " gw 
-
-read -p "Insert Primary DNS: " dns1
-
-read -p "Insert Secondary DNS: " dns2
-
-echo "$(newline)"
-echo "# interfaces(5) file used by ifup(8) and ifdown(8)"
+echo -e "                 \e[1;36mInterfaces\e[0m :" $interface
+    echo -e "             \e[1;36mCurrent Gatway\e[0m :" $gateway
+    echo -e "         \e[1;36mCurrent IP Address\e[0m :" $ip
+    echo
+    echo -e "  \e[1;31m[*] =================================================== [*]\e[0m	"
+    echo
+    read -p "           Choose Interface : " int
+    read -p "          Change IP Address : " ip
+    read -p "            Default Gateway : " gatway
+    echo
+    echo -e "  \e[1;31m[*] =================================================== [*]\e[0m	"
+    rm -rf /etc/netplan/*
+    echo "network:
+    version: 2
+    renderer: NetworkManager
+    ethernets:
+       $int:
+          dhcp4: no
+          addresses: [$ip/24]
+          gateway4: $gatway
+          nameservers:
+           addresses: [9.9.9.9, 8.8.8.8]"  >> /etc/netplan/network-manager.yaml
+    sudo netplan apply
+    echo
+    echo -e "    \e[1;31mNow, Your IP Address Is\e[0m :" "\e[1;36m"$ip"\e[0m"
+    echo
+    read -p " Press [ENTER] to continue and reboot system ... "
+    echo
+    reboot

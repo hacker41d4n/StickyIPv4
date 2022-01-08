@@ -16,3 +16,6 @@ Make a Static IP address in terminal. This program makes it easier to make stati
 
 - sudo bash setup.sh
 ```
+## Finished 
+
+Your static ip is done. Your system requires a reboot after script runs.
